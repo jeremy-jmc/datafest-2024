@@ -163,3 +163,11 @@ cython_debug/
 *.zip
 pdf/
 html/
+data/
+*.csv
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc

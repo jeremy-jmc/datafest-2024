@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\title{Metodologia Datafest 2024}
+\author{Equipo UTEC}
+
+\maketitle
+
+\tableofcontents
+
+\section{EDA}
+
+\section{Forecast}
+
+\section{Optimizacion}
+
+\subsection{Variables}
+
+\begin{itemize}
+    \item Sea i = 1, 2, ..., N el id del cajero. Donde N = 700 cajeros
+    \item Sea j = 1, 2, ..., T la numeracion de los dias de la semana. Donde T = 7.
+    \item Sea P(i, j) una variable binaria que indica si esta permitido llenar el cajero i durante el dia j.
+    \item Sea C(i) la capacidad de dinero que puede alojar un ATM.
+    \item Sea R(i) el porcentaje de costo por transportar X cantidad de dinero. % \\
+    % R(i) = \{ \\
+    %     0.1\%, si el cajero es de tipo A \\
+    %     0.15\%, si el cajero es de tipo A \\
+    % \}
+    \item Sea W(i, j) la cantidad esperada de cash retirada para el i-esimo ATM, durante el dia j.
+    \item Sea S(i, j) la cantidad de cash restante para el i-esimo ATM, al final del dia j.
+    \item Sea X(i, j) la cantidad de dinero llenado para el i-esimo ATM, al inicio del dia j.
+\end{itemize}
+
+\subsection{Restricciones}
+
+Minimizar:
+
+$$
+\sum_{i=1}^{N} \sum_{j=1}^{T} R(i) * X(i, j) * P(i, j)
+$$
+
+sujeto a:
+
+\begin{enumerate}
+    \item Los cajeros no caigan por debajo del stock de seguridad (20\% de la capacidad del cajero).
+        $$0.2 * C(i) <= S(i, j) , \forall i, j$$
+    \item El dinero abastecido al cajero no exceda a su capacidad. Incluyendo la demanda (que puede ser negativa).
+        $$S(i, j-1) + X(i, j) - W(i, j) <= C(i)$$
+    \item El dinero restante del j-esimo dia sea lo restante del dia anterior sumado a lo llenado menos la demanda.
+        $$S(i, j) = S(i, j-1) + X(i, j) - W(i, j)$$
+        Donde $S(i, 0)$ es el dinero inicial de cada ATM (dato de la prediccion).
+    \item El dinero sea llenado en los dias $j$ que le corresponda al cajero $i$.
+        $$X(i, j) <= O * P(i, j)$$
+        Donde $O$ es un numero grande ($1e9$, escogido porque es mayor a la capacidad máxima de cualquier cajero, ya sea de tipo A o B)
+\end{enumerate}
+
+
+\end{document}
