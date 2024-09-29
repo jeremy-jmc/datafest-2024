@@ -6,16 +6,31 @@ import copy
 from tqdm import tqdm
 
 O = 1e9
-T = 6
+T = 7
 
 df = (
-    pd.read_csv('./results_forecast.csv')
-    .drop(columns=['Unnamed: 0'])
+    pd.read_csv('./naive_results_v5.csv')
+    # .drop(columns=['Unnamed: 0'])
     .assign(
         demanda = lambda df: df['demanda'].astype(int),
         weekday = lambda df: pd.to_datetime(df['fecha_transaccion']).dt.day_of_week
     )
+    .sort_values(['codigo_cajero', 'fecha_transaccion'])
+    .reset_index(drop=True)
 )
+display(df)
+# df = (
+#     pd.read_csv('./nbeats.csv')
+#     .drop(columns=['fecha_transaccion'])
+# )
+# display(df)
+
+# cols = ['demanda_20240521', 'demanda_20240522', 'demanda_20240523', 'demanda_20240524', 'demanda_20240525', 'demanda_20240526', 'demanda_20240527']
+# df['demanda_predict'] = df[cols].apply(lambda row: row.values, axis=1)
+# df = df.drop(columns=cols)
+# df.explode("demanda_predict")
+
+
 print(df.shape)
 
 
@@ -46,11 +61,11 @@ def generate_opti(df_cajero: pd.DataFrame, verbose=False):
     S_0 = df_cajero.iloc[0]['saldo_inicial']
 
     if atm_type == 'A':
-        P = [np.nan, 1, 1, 0, 0, 1, 0]  # , 0
+        P = [np.nan, 1, 1, 0, 0, 1, 0, 0]
         C = 1e6
         R = 0.1 / 100
     elif atm_type == 'B':        
-        P = [np.nan, 1, 0, 1, 1, 0, 0]  # , 0
+        P = [np.nan, 1, 0, 1, 1, 0, 0, 0]
         C = 1e6 + 3e5
         R = 0.15 / 100
     
@@ -62,7 +77,7 @@ def generate_opti(df_cajero: pd.DataFrame, verbose=False):
     W.extend(df_cajero['demanda'].values)
 
     umbral = 0.2
-    for min_percentage in [0.2]: # list(np.arange(0.2, 0.0, -0.01)) + [0]:
+    for min_percentage in list(np.arange(0.2, 0.0, -0.005)) + [0]: # [0.2]:
         x = {t: lp.LpVariable(f'x_{t}', lowBound=0, cat=lp.LpContinuous) for t in range(1, T+1)}
         s = {t: lp.LpVariable(f's_{t}', lowBound=0, cat=lp.LpContinuous) for t in range(1, T+1)}
 
@@ -135,24 +150,31 @@ atm_ids = df_cajeros_semana['codigo_cajero'].unique()
 df_final = pd.DataFrame()
 
 id_fails = []
+um = []
 for atm in tqdm(atm_ids, total=len(atm_ids), desc='ATM'):
     sub_df = df_cajeros_semana.copy().loc[lambda df: df['codigo_cajero'] == atm]
     umbral, df_opti = generate_opti(sub_df)
     
     if df_opti.empty:
         id_fails.append(atm)
-        raise RuntimeError(f"Falla en el ATM: {atm}")
-
+        continue
+        # raise RuntimeError(f"Falla en el ATM: {atm}")
+    um.append(umbral)
     df_final = pd.concat([df_final, df_opti])
 
 display(df_final.head(36))
 print(df_final['cumple_predict'].value_counts())
 print(id_fails)
 print(len(id_fails))
+print(um)
+
 
 df_final[['fecha_transaccion', 'codigo_cajero', 'tipo_cajero', 'abastecimiento_predict']]
 
-df_output = df_final.pivot(index='codigo_cajero', columns='fecha_transaccion', values='abastecimiento_predict').reset_index().reset_index(drop=True)
+df_output = (
+    df_final.pivot(index='codigo_cajero', columns='fecha_transaccion', values='abastecimiento_predict')
+    .reset_index().reset_index(drop=True)
+)
 
 df_output = (
     df_output.merge(
@@ -164,7 +186,7 @@ df_output = (
 
 df_output["fecha_transaccion"] = "2024-05-20"
 
-date_cols = ["2024-05-21", "2024-05-22", "2024-05-23", "2024-05-24", "2024-05-25", "2024-05-26"]
+date_cols = ["2024-05-21", "2024-05-22", "2024-05-23", "2024-05-24", "2024-05-25", "2024-05-26", "2024-05-27"]
 main_cols = ["fecha_transaccion", "codigo_cajero", "tipo_cajero"]
 
 df_output = df_output[main_cols + date_cols]
@@ -172,3 +194,12 @@ new_date_cols = [f"abastecimiento_{d.replace('-', '')}" for d in date_cols]
 df_output.columns = main_cols + new_date_cols
 
 display(df_output)
+
+df_output.to_csv('./Grupo9_Datafest2024_Plantilla_Optimizacion_v5.csv', index=False)
+df_output.to_excel('./Grupo9_Datafest2024_Plantilla_Optimizacion_v5.xlsx', index=False)
+
+"""
+Grupo9_Datafest2024_Plantilla_Optimizacion.xlsx
+Grupo9_Datafest2024_Plantilla_Test.xlsx
+Grupo9.pptx
+"""

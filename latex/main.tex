@@ -14,9 +14,63 @@
 
 \section{Forecast}
 
-\section{Optimizacion}
+\section{Optimizacion Desagregada}
 
-\subsection{Variables}
+
+Dado un número de cajeros $N$ (en este caso 700). Aplicar la optimización para cada cajero individualmente, dado que no existen restricciones entre cajeros. Asumiendo cualquier cajero optimizable.
+
+\subsection{Variables de decisión}
+
+\begin{itemize}
+    \item Sea j = 1, 2, ..., T la numeracion de los dias de la semana. Donde \textbf{T = 7}.
+    \item Sea P(j) una variable binaria que indica si esta permitido llenar el cajero seleccionado durante el dia j.
+    \begin{itemize}
+        \item 1 si está permitido abastecer el cajero durante el dia $j$.
+        \item 0 si está \textbf{NO} permitido abastecer el cajero durante el dia $j$.
+    \end{itemize}
+    \item Sea C la capacidad de dinero que puede alojar el ATM seleccionado
+    \begin{itemize}
+        \item 1000000 si el cajero es de \textbf{tipo A}.
+        \item 1300000 si el cajero es de \textbf{tipo B}.
+    \end{itemize}
+    \item Sea R el porcentaje de costo por transportar X cantidad de dinero.
+    \begin{itemize}
+        \item 0.1\% si el cajero es de \textbf{tipo A}.
+        \item 0.15\% si el cajero es de \textbf{tipo B}.
+    \end{itemize}
+    \item Sea $W(j)$ la cantidad esperada de cash retirada para el ATM seleccionado, durante el dia j.
+    \item Sea $S(j)$ la cantidad de cash restante para el ATM seleccionado, al final del dia j.
+    \item Sea $X(j)$ la cantidad de dinero llenado para el ATM seleccionado, al inicio del dia j.
+\end{itemize}
+
+\subsection{Función objetivo y Restricciones}
+
+Minimizar:
+
+$$
+\sum_{j=1}^{T} R * X(j) * P(j)
+$$
+
+sujeto a:
+
+\begin{enumerate}
+    \item El cajero no caiga por debajo del stock de seguridad (20\% de la capacidad del cajero).
+        $$0.2 * C <= S(j) , \forall j$$
+    \item El dinero abastecido al cajero no exceda a su capacidad. Incluyendo los abastecimientos y demandas del día.
+        $$S(j-1) + X(j) - W(j) <= C$$
+    \item El dinero restante del día sea lo restante del dia anterior sumado a lo llenado menos la demanda.
+        $$S(j) = S(j-1) + X(j) - W(j) , \forall j$$
+        Donde $S(i, 0)$ es el dinero inicial de cada ATM (dato de la prediccion).
+    \item El dinero sea llenado en los días que le corresponda al cajero según su tipo (A o B).
+        $$X(j) <= O * P(j) , \forall j$$
+        Donde $O$ es un numero grande ($10^9$, escogido porque es mayor a la capacidad máxima de cualquier cajero, ya sea de tipo A o B)
+\end{enumerate}
+
+
+
+\section{Optimizacion Agrupada}
+
+\subsection{Variables de decisión}
 
 \begin{itemize}
     \item Sea i = 1, 2, ..., N el id del cajero. Donde N = 700 cajeros

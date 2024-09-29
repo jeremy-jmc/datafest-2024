@@ -1,0 +1,73 @@
+Fecha,Motivo,Es día no laborable
+1/01/2023,Año Nuevo,FALSE
+2/01/2023,Día no laborable,TRUE
+6/04/2023,Jueves Santo,FALSE
+7/04/2023,Viernes Santo,FALSE
+9/04/2023,Domingo de Pascua,FALSE
+28/04/2023,Día no laborable,TRUE
+1/05/2023,Día del Trabajo,FALSE
+7/06/2023,Día de la bandera,FALSE
+29/06/2023,San Pedro y San Pablo,FALSE
+30/06/2023,Día no laborable,TRUE
+23/07/2023,Día de la Fuerza Aérea del Perú,FALSE
+27/07/2023,Día no laborable,TRUE
+28/07/2023,Día de la Independencia,FALSE
+29/07/2023,Celebración del Día de la Independencia,FALSE
+6/08/2023,Batalla de Junín,FALSE
+30/08/2023,Santa Rosa de Lima,FALSE
+8/10/2023,Combate de Angamos,FALSE
+9/10/2023,Día no laborable,TRUE
+1/11/2023,Día de Todos los Santos,FALSE
+7/12/2023,Día no laborable,TRUE
+8/12/2023,Inmaculada Concepción,FALSE
+9/12/2023,Batalla de Ayacucho,FALSE
+25/12/2023,Navidad,FALSE
+26/12/2023,Día no laborable,TRUE
+1/01/2024,Año Nuevo,FALSE
+2/01/2024,Día no laborable,TRUE
+28/03/2024,Jueves Santo,FALSE
+29/03/2024,Viernes Santo,FALSE
+31/03/2024,Domingo de Pascua,FALSE
+28/04/2024,Día no laborable,TRUE
+1/05/2024,Día del Trabajo,FALSE
+7/06/2024,Día de la bandera,FALSE
+29/06/2024,San Pedro y San Pablo,FALSE
+30/06/2024,Día no laborable,TRUE
+23/07/2024,Día de la Fuerza Aérea del Perú,FALSE
+26/07/2024,Día no laborable,TRUE
+28/07/2024,Día de la Independencia,FALSE
+29/07/2024,Celebración del Día de la Independencia,FALSE
+6/08/2024,Batalla de Junín,FALSE
+30/08/2024,Santa Rosa de Lima,FALSE
+8/10/2024,Combate de Angamos,FALSE
+9/10/2024,Día no laborable,TRUE
+1/11/2024,Día de Todos los Santos,FALSE
+7/12/2024,Día no laborable,TRUE
+8/12/2024,Inmaculada Concepción,FALSE
+9/12/2024,Batalla de Ayacucho,FALSE
+25/12/2024,Navidad,FALSE
+26/12/2024,Día no laborable,TRUE
+1/01/2025,Año Nuevo,FALSE
+2/01/2025,Día no laborable,TRUE
+16/04/2025,Jueves Santo,FALSE
+17/04/2025,Viernes Santo,FALSE
+20/04/2025,Domingo de Pascua,FALSE
+28/04/2025,Día no laborable,TRUE
+1/05/2025,Día del Trabajo,FALSE
+7/06/2025,Día de la bandera,FALSE
+29/06/2025,San Pedro y San Pablo,FALSE
+30/06/2025,Día no laborable,TRUE
+23/07/2025,Día de la Fuerza Aérea del Perú,FALSE
+27/07/2025,Día no laborable,TRUE
+28/07/2025,Día de la Independencia,FALSE
+29/07/2025,Celebración del Día de la Independencia,FALSE
+6/08/2025,Batalla de Junín,FALSE
+30/08/2025,Santa Rosa de Lima,FALSE
+8/10/2025,Combate de Angamos,FALSE
+9/10/2025,Día no laborable,TRUE
+1/11/2025,Día de Todos los Santos,FALSE
+7/12/2025,Día no laborable,TRUE
+8/12/2025,Inmaculada Concepción,FALSE
+9/12/2025,Batalla de Ayacucho,FALSE
+25/12/2025,Navidad,FALSE
+26/12/2025,Día no laborable,TRUE
